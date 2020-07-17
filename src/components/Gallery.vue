@@ -58,6 +58,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     const apiurl = "http://localhost/image-gallery/backend/index.php"; 
 
     export default {
+      name:'Image Gallery',
      components: {
 
         vueDropzone: vue2Dropzone
