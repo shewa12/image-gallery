@@ -6,7 +6,7 @@ namespace App;
 		const HOST = "localhost";
 		const USER = "root";
 		const PASS = "";
-		const DB   = "test";
+		const DB   = "image-gallery";
 
 		function connect()
 		{

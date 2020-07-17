@@ -1,0 +1,28 @@
+################### PLEASE FOLLOW THE STEPS ACCORDINGLY AND GO ONE BY ONE ####################
+
+STEP 1) Clone project from git 
+
+STEP 2) Place it to the xampp or wamp server, inside (www for wamp) and (htdocs for xampp)
+
+STEP 3) Open CMD navigate to the project
+
+STEP 4) run CMD: npm install // to install node modules for dependency, u must need node install for this 
+
+STEP 5) Create Database named "image-gallery" . Select "image-gallery.sql" Database File from project folder and Import it in the newly created Database.
+
+SETP 6) You may have to enable Cross Origin Resource Sharing from server side. As vue listen on port localhost:8080 and back end server is available on localhost/image-gallery. So client & server end is on Cross Domain.
+To enable CORS from apache place below code in apache httpd.conf file
+
+    httpd.conf file path in my case: C:\wamp64\bin\apache\apache2.4.41\conf
+
+    DocumentRoot "c:/wamp64/www"
+    <Directory "c:/wamp64/www/">
+        Options +Indexes +FollowSymLinks
+        Header set Access-Control-Allow-Origin "*"
+        AllowOverride all
+        Require local
+    </Directory>
+
+STEP 7) npm run serve to run the app
+
+##################### thats all, thank you for reading #########################

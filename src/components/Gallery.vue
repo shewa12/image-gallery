@@ -128,5 +128,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 #dropzone{
   width: 100%;
 }
-
+.v-card {
+  cursor: pointer;
+}
 </style>

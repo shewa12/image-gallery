@@ -20,7 +20,7 @@
                         <v-col cols="3" v-for='(preset,k) in presets()' @click='selectAndLoadPreset(preset)' :class="[(selectedPreset && (selectedPreset.name==preset.name)) ? 'bg-primary' : 'bg-secondary']" :key="k" class="d-flex child-flex">
                             
                           
-                           <img  crossorigin="nnonymous" :src="image" :style='makeFilter(k,preset.filterSet)' :title="k"> 
+                           <img :class="k=='default'? 'filter activeFilter' :'filter' " crossorigin="nnonymous" :src="image" @click="setFilterActive($event)" :style='makeFilter(preset.filterSet)' :title="k"> 
                                  
                         </v-col>                          
                      
@@ -83,19 +83,19 @@
                             <v-col>
                                 <span class="flip">Flip: </span> 
                                 <span class="buttons">
-                                    <v-btn v-for="(flip,k) in predefinedFlips" :key="k" outlined=""  class="mr-5" @click="setFlip(flip)" id="flipNone">{{flip}}</v-btn>
+                                    <v-btn  v-for="(flip,k) in predefinedFlips" :key="k" outlined=""  :class="flip=='None'? 'mr-5 flip activeFlip': 'mr-5 flip' " @click="setFlip(flip,$event)" id="flipNone">{{flip}}</v-btn>
 
                                 </span>
                             </v-col>
                             <v-col>
                                 <span class="rotate">Rotate: </span> 
                                 <span class="buttons">
-                                    <v-btn v-for="(rotate,k) in predefinedRotations" :key="k" outlined="" class="rotate" @click="setRotate(rotate)"> {{rotate}}deg</v-btn>
+                                    <v-btn v-for="(rotate,k) in predefinedRotations" :key="k" outlined="" :class="rotate==0? 'rotate activeRotate' :'rotate' " @click="setRotate(rotate,$event)"> {{rotate}}deg</v-btn>
                                   
                                 </span>
                             </v-col>
                             <v-col>
-                                <span class="crop">Ratio: </span> 
+                                <span class="crop">Ratio: Not Done :( </span> 
                                 <span class="buttons">
                                     <v-btn outlined="" color="primary">16:9</v-btn>
                                     <v-btn outlined="" color="primary">10:7</v-btn>
@@ -161,17 +161,7 @@ export default {
         this.predefinedFlips = this.flips();
         this.getMeta();
 	},
-	watch: {
-/* 
-		textCopied() {
-			setTimeout(function() {
-				if(this.textCopied == true) {
-					this.textCopied = false;
-				}
-			}.bind(this), 350);
-		}
-*/
-	},
+
 	computed: {
 		filters() {
 			return this.makeFilter();
@@ -193,9 +183,15 @@ export default {
             this.height = height;
               alert(this.width+' '+this.height)
 */
-        },        
-		makeFilter(key,filterSet) {
+        },      
+        setFilterActive(event){
+            let classes = document.getElementsByClassName('filter');
+            for(let c of classes){c.classList.remove('activeFilter')}
+            event.currentTarget.classList.add('activeFilter');             
+        },  
+		makeFilter(filterSet) {
 
+            
 			if(!filterSet) {
 				filterSet = this.filterFunctions;
 			}
@@ -261,15 +257,22 @@ export default {
         rotations(){
             return [0,30,60,90,180];
         },
-        setRotate(r){
+        setRotate(r,event){
             this.rotate = r;
+            let classes = document.getElementsByClassName('rotate');
+            for(let c of classes){c.classList.remove('activeRotate')}
+            event.currentTarget.classList.add('activeRotate');            
             document.querySelector("#image").style.webkitTransform = `rotate(${this.rotate}deg)`;
         },
         flips(){
             return ['None','Flip Horizontally','Flip Vertically'];
         },
-        setFlip(flip){
+        setFlip(flip,event){
+
             this.flip = flip;
+            let classes = document.getElementsByClassName('flip');
+            for(let c of classes){c.classList.remove('activeFlip')}
+            event.currentTarget.classList.add('activeFlip');
             if(flip=="None")
             {
                 document.querySelector("#image").style.webkitTransform = 'scale(1)';
@@ -365,6 +368,9 @@ pre{
 	color: rgb(76, 186, 135);
 	font-size: 18px;
 	font-weight: bolder;
+}
+.filter {
+    cursor: pointer;
 }
 .activeFilter,.activeRotate,.activeFlip {
     border: 2px solid lightblue;
